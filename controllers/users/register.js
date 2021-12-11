@@ -10,6 +10,7 @@ const register = async (req, res) => {
 
   const newUser = new User({ name, email });
   newUser.setPassword(password);
+  newUser.createAvatar();
   newUser.save();
   res.status(201).json({
     email,
