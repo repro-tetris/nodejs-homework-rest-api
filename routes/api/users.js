@@ -37,6 +37,12 @@ router.post(
 router.get("/current", auth, controllerWrapper(userController.getCurrent));
 
 router.get("/logout", auth, controllerWrapper(userController.logout));
+router.get(
+  "/verify/:verificationToken",
+  controllerWrapper(userController.verifyToken)
+);
+
+router.post("/verify", controllerWrapper(userController.verify));
 
 router.patch(
   "/avatars",

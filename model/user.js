@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { nanoid } = require("nanoid");
 const bcrypt = require("bcryptjs");
 var gravatar = require("gravatar");
 
@@ -25,6 +26,14 @@ const userSchema = Schema({
     type: String,
     default: null,
   },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: {
+    type: String,
+    required: [true, "Verify token is required"],
+  },
 });
 
 userSchema.methods.setPassword = function (password) {
@@ -36,6 +45,11 @@ userSchema.methods.comparePassword = function (password) {
 
 userSchema.methods.createAvatar = function () {
   this.avatarURL = gravatar.url(this.email);
+};
+
+userSchema.methods.createVerificationToken = function () {
+  this.verifyToken = nanoid();
+  return this.verifyToken;
 };
 const User = model("user", userSchema);
 
